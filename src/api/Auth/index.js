@@ -1,17 +1,21 @@
-// import axios from 'axios';
+import axios from "axios";
+import constants from "../../constants";
 
-// // Login User
-// export const loginUser = (values) => {
-//     const url = 'api/users/login';
+const { BASE_URL } = constants;
 
-//     return axios.post(url, values)
-//         .then(response => response.data);
-// }
+const API = axios.create({ BASE_URL });
 
-// // Register User
-// export const registerUser = (values) => {
-//     const url = 'api/users';
+// Login User
+export const loginUser = async (values) => {
+  const url = "api/users/login";
+  const response = await API.post(url, values);
+  return response.data;
+};
 
-//     return axios.post(url, values)
-//         .then(response => response.data);
-// }
+// Register User
+
+export const registerUser = async (values) => {
+  const url = "api/users";
+  const response = await API.post(url, values);
+  return response.data;
+};

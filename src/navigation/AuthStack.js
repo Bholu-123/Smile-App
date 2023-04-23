@@ -13,17 +13,16 @@ import PropTypes from "prop-types";
 const AuthStack = ({ ...props }) => {
   const { isOnboardingDisabled } = props;
   const Stack = createStackNavigator();
-  console.log("++++ISISI", isOnboardingDisabled);
 
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={false ? "Splash" : "Onboarding"}
+      initialRouteName={isOnboardingDisabled ? "Splash" : "Onboarding"}
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
-      <Stack.Screen name="Home" component={Tabs} />
+      <Stack.Screen name="Tabs" component={Tabs} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Onboarding" component={Onboarding} />

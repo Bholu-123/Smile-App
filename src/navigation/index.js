@@ -3,9 +3,8 @@ import { View, Text } from "react-native";
 import AuthStack from "./AuthStack";
 import { NavigationContainer } from "@react-navigation/native";
 import Constant from "../constants/index";
-import axios from "axios";
 
-const { MyDarkTheme, MyLightTheme, BASE_URL } = Constant;
+const { MyDarkTheme, MyLightTheme } = Constant;
 
 const RootNavigation = () => {
   return (

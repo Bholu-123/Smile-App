@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import Icon from "react-native-vector-icons/dist/Ionicons";
 import Home from "../screens/Home/index";
-import Favorite from "../screens/Favorite";
-
+import Saved from "../screens/Saved";
+import Profile from "../screens/Profile";
+import Settings from "../screens/Settings";
+import { Ionicons } from "@expo/vector-icons";
 import { moderateScale } from "react-native-size-matters";
 
 const Tabs = () => {
@@ -13,52 +13,61 @@ const Tabs = () => {
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: "#062743",
-        inactiveTintColor: "#9ea9b3",
+        inactiveTintColor: "#232323",
         tabStyle: {
-          marginVertical: moderateScale(10),
+          marginVertical: moderateScale(5),
         },
-        showLabel: false,
+        showLabel: true,
       }}
     >
       <Tab.Screen
         name="Home"
         component={Home}
-        // options={{
-        //   tabBarIcon: ({ size, color }) => (
-        //     <Icon name="home-sharp" size={size} color={color} />
-        //   ),
-        // }}
+        options={{
+          tabBarIcon: ({ focused, size, color }) =>
+            focused ? (
+              <Ionicons name="home-sharp" size={size} color={color} />
+            ) : (
+              <Ionicons name="home-outline" size={size} color={color} />
+            ),
+        }}
       />
-
       <Tab.Screen
-        name="Favorite"
-        component={Favorite}
-        // options={{
-        //   tabBarIcon: ({ size, color }) => (
-        //     <Icon name="heart-sharp" size={size} color={color} />
-        //   ),
-        // }}
+        name="Saved"
+        component={Saved}
+        options={{
+          tabBarIcon: ({ focused, size, color }) =>
+            focused ? (
+              <Ionicons name="heart" size={size} color={color} />
+            ) : (
+              <Ionicons name="heart-outline" size={size} color={color} />
+            ),
+        }}
       />
-
-      {/* <Tab.Screen
-        name="Notification"
-        component={Notification}
-        // options={{
-        //   tabBarIcon: ({ size, color }) => (
-        //     <Icon name="notifications-sharp" size={size} color={color} />
-        //   ),
-        // }}
-      />
-
       <Tab.Screen
-        name="Account"
-        component={Account}
-        // options={{
-        //   tabBarIcon: ({ size, color }) => (
-        //     <Icon name="person-sharp" size={size} color={color} />
-        //   ),
-        // }}
-      /> */}
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarIcon: ({ focused, size, color }) =>
+            focused ? (
+              <Ionicons name="settings" size={size} color={color} />
+            ) : (
+              <Ionicons name="settings-outline" size={size} color={color} />
+            ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ focused, size, color }) =>
+            focused ? (
+              <Ionicons name="person" size={size} color={color} />
+            ) : (
+              <Ionicons name="person-outline" size={size} color={color} />
+            ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

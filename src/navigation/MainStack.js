@@ -14,7 +14,7 @@ const MainStack = () => {
       initialRouteName="Splash"
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
-      <Stack.Screen name="Tab" component={Tabs} />
+      <Stack.Screen name="Tabs" component={Tabs} />
     </Stack.Navigator>
   );
 };

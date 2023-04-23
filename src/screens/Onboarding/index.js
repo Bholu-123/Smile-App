@@ -86,7 +86,7 @@ const Onboarding = ({ ...props }) => {
 
   const _onEndReached = () => {
     updateOnboarding(true);
-    navigation.navigate("Login");
+    navigation.navigate("Register");
   };
 
   return (

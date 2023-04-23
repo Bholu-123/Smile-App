@@ -1,8 +1,8 @@
 import { DefaultTheme, DarkTheme } from "@react-navigation/native";
 
 export default {
-  asyncStorageKey: "NewsApp001",
-  BASE_URL: "https://news-app-api-nodejs.herokuapp.com/",
+  asyncStorageKey: "SmileApp",
+  BASE_URL: "http://49.37.32.115:5000",
   THEME: {
     primary: "#062743",
     secondary: "#182952",

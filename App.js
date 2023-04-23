@@ -14,7 +14,6 @@ const App = () => {
     EStyleSheet.build();
   }, []);
 
-  console.log(reduxStore);
   return (
     <Provider store={reduxStore}>
       <PersistGate persistor={reduxPersistStore}>
