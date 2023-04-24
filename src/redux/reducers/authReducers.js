@@ -12,7 +12,7 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
-  const { status, type } = action;
+  const { status, type, isLoggedIn, user, accessToken } = action;
 
   switch (type) {
     case UPDATE_ONBOARDING_STATUS:

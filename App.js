@@ -6,6 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import reduxStore from "./src/redux";
 import "react-native-gesture-handler";
 import EStyleSheet from "react-native-extended-stylesheet";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 export const reduxPersistStore = persistStore(reduxStore);
 
@@ -17,7 +18,9 @@ const App = () => {
   return (
     <Provider store={reduxStore}>
       <PersistGate persistor={reduxPersistStore}>
-        <RootNavigation />
+        <RootSiblingParent>
+          <RootNavigation />
+        </RootSiblingParent>
       </PersistGate>
     </Provider>
   );
