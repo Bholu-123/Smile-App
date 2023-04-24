@@ -2,7 +2,7 @@ import { DefaultTheme, DarkTheme } from "@react-navigation/native";
 
 export default {
   asyncStorageKey: "SmileApp",
-  BASE_URL: "http://49.37.32.115:5000",
+  BASE_URL: "http://192.168.29.57:5000",
   THEME: {
     primary: "#062743",
     secondary: "#182952",

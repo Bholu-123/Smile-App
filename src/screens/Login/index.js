@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import * as authActions from "../../redux/actions/authActions";
 import PropTypes from "prop-types";
 import { setTokenInterceptor } from "../../utils/setTokenInterceptor";
+import Toast from "react-native-root-toast";
 
 const signInValidationSchema = yup.object().shape({
   email: yup
@@ -31,7 +32,10 @@ const Login = ({ ...props }) => {
   const { updateUserLogin, updateUserAccessToken, user, isLoggedIn } = props;
 
   const navigation = useNavigation();
-
+  const [toastMessage, setToastMessage] = useState({
+    show: false,
+    msg: "",
+  });
   const [showSpinner, setShowSpinner] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
@@ -54,22 +58,40 @@ const Login = ({ ...props }) => {
             }}
             onSubmit={async (values) => {
               setShowSpinner(true);
-              console.log("values ", values);
+
               loginUser(values)
                 .then((res) => {
-                  console.log("Response ", res);
-                  setShowSpinner(false);
-                  navigation.navigate("Tabs");
+                  console.log("RESPONSE IN LOGIN", res);
                   updateUserLogin(res, true);
                   updateUserAccessToken(res.token);
-
                   setTokenInterceptor(res);
+                  setShowSpinner(false);
+                  setToastMessage({
+                    show: true,
+                    msg: res.message,
+                  });
 
-                  console.log("User coming from state", user);
-                  console.log("iosLoggedIn coming from state", isLoggedIn);
+                  setTimeout(function hideToast() {
+                    setToastMessage({
+                      show: false,
+                      msg: "",
+                    });
+                  }, 1500);
+                  navigation.navigate("Tabs");
                 })
                 .catch((err) => {
-                  console.log("Error ", err.response.data?.msg);
+                  console.log("ERROR IN LOGIN", err.response.data.message);
+                  setToastMessage({
+                    show: true,
+                    msg: err.response.data.message,
+                  });
+
+                  setTimeout(function hideToast() {
+                    setToastMessage({
+                      show: false,
+                      msg: "",
+                    });
+                  }, 1500);
                   setShowSpinner(false);
                 });
             }}
@@ -205,6 +227,18 @@ const Login = ({ ...props }) => {
           <TouchableOpacity onPress={() => navigation.navigate("Tabs")}>
             <Text style={{ color: "#9ea9b3" }}>Skip</Text>
           </TouchableOpacity>
+          <View>
+            <Toast
+              visible={toastMessage.show}
+              position={-20}
+              shadow={false}
+              animation={false}
+              hideOnPress={true}
+              backgroundColor={"#182952"}
+            >
+              {toastMessage.msg}
+            </Toast>
+          </View>
         </View>
       </ScrollView>
     </View>

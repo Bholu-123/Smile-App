@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { registerUser } from "../../api/Auth";
-// import { showSnackBar } from "../../utils/SnackBar";
+import Toast from "react-native-root-toast";
 
 const signUpValidationSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -38,7 +38,10 @@ const signUpValidationSchema = yup.object().shape({
 
 const Register = () => {
   const navigation = useNavigation();
-
+  const [toastMessage, setToastMessage] = useState({
+    show: false,
+    msg: "",
+  });
   const [showSpinner, setShowSpinner] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
@@ -62,23 +65,36 @@ const Register = () => {
             }}
             onSubmit={async (values) => {
               setShowSpinner(true);
-              console.log("VALUE", values);
+
               registerUser(values)
                 .then((res) => {
-                  console.log("Response ", res);
                   setShowSpinner(false);
-                  Alert.alert(" ", res.msg, [
-                    {
-                      text: "Ok",
-                      onPress: () => {
-                        navigation.navigate("Login");
-                      },
-                    },
-                  ]);
-                  // navigation.navigate('Home');
+                  setToastMessage({
+                    show: true,
+                    msg: res.message,
+                  });
+                  // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+                  setTimeout(function hideToast() {
+                    setToastMessage({
+                      show: false,
+                      msg: "",
+                    });
+                  }, 1500);
+                  navigation.navigate("Login");
                 })
                 .catch((err) => {
-                  console.log("Error ", err);
+                  setToastMessage({
+                    show: true,
+                    msg: err.response.data.message,
+                  });
+
+                  // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+                  setTimeout(function hideToast() {
+                    setToastMessage({
+                      show: false,
+                      msg: "",
+                    });
+                  }, 1500);
                   setShowSpinner(false);
                 });
             }}
@@ -223,6 +239,16 @@ const Register = () => {
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text style={styles().signText}>Sign In</Text>
             </TouchableOpacity>
+            <Toast
+              visible={toastMessage.show}
+              position={-20}
+              shadow={false}
+              animation={false}
+              hideOnPress={true}
+              backgroundColor={"#182952"}
+            >
+              {toastMessage.msg}
+            </Toast>
           </View>
         </View>
       </ScrollView>
