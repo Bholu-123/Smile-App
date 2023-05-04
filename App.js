@@ -1,29 +1,17 @@
-import React, { useEffect } from "react";
-import RootNavigation from "./src/navigation/index";
+import { TailwindProvider } from "tailwindcss-react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { store } from "./store";
 import { Provider } from "react-redux";
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import reduxStore from "./src/redux";
-import "react-native-gesture-handler";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { RootSiblingParent } from "react-native-root-siblings";
+import Navigation from "./components/Navigation";
 
-export const reduxPersistStore = persistStore(reduxStore);
-
-const App = () => {
-  useEffect(() => {
-    EStyleSheet.build();
-  }, []);
-
+export default function App() {
   return (
-    <Provider store={reduxStore}>
-      <PersistGate persistor={reduxPersistStore}>
-        <RootSiblingParent>
-          <RootNavigation />
-        </RootSiblingParent>
-      </PersistGate>
+    <Provider store={store}>
+      <NavigationContainer>
+        <TailwindProvider>
+          <Navigation />
+        </TailwindProvider>
+      </NavigationContainer>
     </Provider>
   );
-};
-
-export default App;
+}
