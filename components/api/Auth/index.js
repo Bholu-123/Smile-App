@@ -49,7 +49,8 @@ export const getNgoByCategoryId = async (catId) => {
 };
 
 export const addNgo = async (value) => {
-  const url = `/api/ngo/addNgos`;
+  console.log("+++VALUUE", value);
+  const url = "/api/ngo/addNgos";
   const response = await API({
     method: "POST",
     url: url,
