@@ -3,7 +3,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { addItemsToCart, cartItemPrice } from "../slices/cartCountSlice";
 import { useNavigation } from "@react-navigation/native";
-import Currency from "react-currency-formatter";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const CartSticker = () => {

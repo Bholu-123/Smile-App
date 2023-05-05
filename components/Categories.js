@@ -1,7 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
-
 const Categories = (props) => {
   const { categories } = props;
   // console.log("++++CATT", categories);

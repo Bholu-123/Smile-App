@@ -11,7 +11,8 @@ import Login from "../screens/Login";
 import Register from "../screens/Register";
 import SelectUserType from "../screens/SelectUserType";
 import AdminHomeScreen from "../screens/AdminHomeScreen";
-
+import { isOnboardingDisabled } from "../slices/Actions/authActions";
+import Onboarding from "../screens/OnboardingScreen";
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -22,9 +23,10 @@ const Navigation = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"SelectUserType"}
+      initialRouteName={isOnboardingDisabled ? "SelectUserType" : "Onboarding"}
     >
       <Stack.Group screenOptions={{ statusBarHidden: false }}>
+        <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="SelectUserType" component={SelectUserType} />
         <Stack.Screen name="Home" component={Homescreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
