@@ -12,7 +12,9 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    UPDATE_ONBOARDING_STATUS: (auth, action) => {},
+    UPDATE_ONBOARDING_STATUS: (auth, action) => {
+      auth.isOnboardingDisabled = action.payload.status;
+    },
 
     UPDATE_USER_LOGIN: (auth, action) => {
       auth.isLoggedIn = action.payload.isLoggedIn;

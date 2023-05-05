@@ -1,7 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
-import client from "../sanity/sanity";
+// import client from "../sanity/sanity";
 
 const Categories = (props) => {
   const { categories } = props;

@@ -1,9 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import Currency from "react-currency-formatter";
+// import Currency from "react-currency-formatter";
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
 import { useSelector, useDispatch } from "react-redux";
 import { addItemsToCart, addItemsToCartWithId, decrement, increment } from "../slices/cartCountSlice";
+import NumberFormat from 'react-number-format';
 
 const DishCard = ({ imgUrl, title, description, price, id }) => {
   const [isClicked, setIsCLicked] = useState(false);
@@ -23,7 +24,7 @@ const DishCard = ({ imgUrl, title, description, price, id }) => {
             <Text className="text-lg mb-1">{title}</Text>
             <Text className="text-gray-400">{description}</Text>
             <Text>
-              <Currency quantity={price} currency="INR" />
+            <NumberFormat thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={price} />
             </Text>
           </View>
           <View className="">

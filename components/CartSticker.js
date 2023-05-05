@@ -3,8 +3,8 @@ import React from 'react'
 import { useSelector } from "react-redux";
 import { addItemsToCart, cartItemPrice } from "../slices/cartCountSlice";
 import { useNavigation } from '@react-navigation/native';
-import Currency from "react-currency-formatter";
-
+// import Currency from "react-currency-formatter";
+import NumberFormat from 'react-number-format';
 
 const CartSticker = () => {
     const count = useSelector(addItemsToCart);
@@ -18,7 +18,7 @@ const CartSticker = () => {
       <Text className="font-extrabold text-white text-lg flex-1 text-center">View Cart</Text>
 
       <Text className="font-extrabold text-white text-lg">
-        <Currency quantity={sumTotal} currency="INR"></Currency>
+      <NumberFormat thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={sumTotal} />
       </Text>
     </View>
   </TouchableOpacity>
