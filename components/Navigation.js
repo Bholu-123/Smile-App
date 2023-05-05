@@ -15,9 +15,6 @@ import AdminHomeScreen from "../screens/AdminHomeScreen";
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  //   const isOnboardingDisabled = useSelector(
-  //     (state) => state.auth.isOnboardingDisabled
-  //   );
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   return (
@@ -25,7 +22,7 @@ const Navigation = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"Home"}
+      initialRouteName={"SelectUserType"}
     >
       <Stack.Group screenOptions={{ statusBarHidden: false }}>
         <Stack.Screen name="SelectUserType" component={SelectUserType} />
