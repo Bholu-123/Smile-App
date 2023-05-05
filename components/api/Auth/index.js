@@ -47,3 +47,14 @@ export const getNgoByCategoryId = async (catId) => {
   });
   return response.data.data;
 };
+
+export const addNgo = async (value) => {
+  console.log("+++VALUUE", value);
+  const url = "/api/ngo/addNgos";
+  const response = await API({
+    method: "POST",
+    url: url,
+    data: value,
+  });
+  return response.data.data;
+};

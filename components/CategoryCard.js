@@ -1,7 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-// import { urlFor } from "../sanity/sanity";
-
 const CategoryCard = ({ imgURL, title }) => {
   return (
     <TouchableOpacity className="relative mr-2">
