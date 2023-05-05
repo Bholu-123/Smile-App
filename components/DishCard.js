@@ -3,7 +3,13 @@ import React, { useState } from "react";
 import Currency from "react-currency-formatter";
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
 import { useSelector, useDispatch } from "react-redux";
-import { addItemsToCart, addItemsToCartWithId, decrement, increment } from "../slices/cartCountSlice";
+import {
+  addItemsToCart,
+  addItemsToCartWithId,
+  decrement,
+  increment,
+} from "../slices/cartCountSlice";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const DishCard = ({ imgUrl, title, description, price, id }) => {
   const [isClicked, setIsCLicked] = useState(false);
@@ -22,9 +28,10 @@ const DishCard = ({ imgUrl, title, description, price, id }) => {
           <View className="flex-1 pr-2">
             <Text className="text-lg mb-1">{title}</Text>
             <Text className="text-gray-400">{description}</Text>
-            <Text>
-              <Currency quantity={price} currency="INR" />
-            </Text>
+            <View className="flex-row items-center">
+              <Text className="text-gray-400">5</Text>
+              <Icon name="coins" className="text-gray-400 ml-2" />
+            </View>
           </View>
           <View className="">
             <Image
