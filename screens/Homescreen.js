@@ -20,7 +20,7 @@ import {
 } from "react-native-heroicons/outline";
 import Categories from "../components/Categories";
 import FeaturedContent from "../components/FeaturedContent";
-import client from "../sanity/sanity";
+
 import * as React from "react";
 import { getAllCategories, getNgoByCategoryId } from "../components/api/Auth";
 
