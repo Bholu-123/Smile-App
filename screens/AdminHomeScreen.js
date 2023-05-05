@@ -6,12 +6,13 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from "react-native-dropdown-picker";
-import { getAllCategories } from "../components/api/Auth";
+import { addNgo, getAllCategories } from "../components/api/Auth";
 import Icon from "react-native-vector-icons/AntDesign";
 import { scale } from "react-native-size-matters";
 import { useSelector } from "react-redux";
@@ -23,7 +24,12 @@ const validationSchema = yup.object().shape({
 
 const AdminHomeScreen = () => {
   const [image, setImage] = useState(null);
+  const [showSpinner, setShowSpinner] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const initialValues = {
+    title: "",
+    content: "",
+  };
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState(null);
@@ -45,6 +51,7 @@ const AdminHomeScreen = () => {
       setImage(result?.assets?.[0]?.uri);
     }
   };
+  true;
 
   useEffect(() => {
     getAllCategories()
@@ -73,8 +80,9 @@ const AdminHomeScreen = () => {
       </Text>
       <View className="mt-10">
         <Formik
-          initialValues={{ title: "", content: "" }}
-          onSubmit={(values) => {
+          initialValues={initialValues}
+          onSubmit={(values, { resetForm }) => {
+            setShowSpinner(true);
             let obj = {
               title: values?.title,
               content: values?.content,
@@ -82,6 +90,18 @@ const AdminHomeScreen = () => {
               userId: user?._id,
               imageUrl: image,
             };
+            addNgo(obj)
+              .then((res) => {
+                console.log("+++++RESSS", res);
+                setShowSpinner(false);
+                setDropdownValue("");
+                setImage(null);
+                resetForm({ values: initialValues });
+              })
+              .catch((err) => {
+                console.log("++++ERRORT IN ADDING NGO", err);
+                setShowSpinner(false);
+              });
           }}
           validationSchema={validationSchema}
         >
@@ -177,6 +197,7 @@ const AdminHomeScreen = () => {
                   <Text style={{ color: "#fff", marginLeft: scale(5) }}>
                     Submit
                   </Text>
+                  {showSpinner && <ActivityIndicator color={"#fff"} />}
                 </TouchableOpacity>
               </View>
             </View>
