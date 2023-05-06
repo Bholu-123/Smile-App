@@ -8,6 +8,7 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { useLayoutEffect, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -26,11 +27,17 @@ import { getAllCategories, getNgoByCategoryId } from "../components/api/Auth";
 const Homescreen = () => {
   const Navigation = useNavigation();
   const [categories, setCategories] = useState([]);
+  const [refreshing, setRefreshing] = useState(true);
 
   useLayoutEffect(() => {
     Navigation.setOptions({
       headerShown: false,
     });
+    handleRefresh();
+  }, []);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
     getAllCategories()
       .then(async (res) => {
         let categoriesArray = [];
@@ -49,11 +56,13 @@ const Homescreen = () => {
         }
 
         setCategories(categoriesArray);
+        console.log("++++CALLAL");
+        setRefreshing(false);
       })
       .catch((err) => {
         console.log("Error in fetching category", err);
       });
-  }, []);
+  };
 
   return (
     <SafeAreaView style={styles.AndroidSafeArea} className="bg-white">
@@ -86,6 +95,9 @@ const Homescreen = () => {
         contentContainerStyle={{
           paddingBottom: 100,
         }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
       >
         <Categories categories={categories} />
         {categories?.map((cat) => {

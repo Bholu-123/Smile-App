@@ -124,7 +124,7 @@ const CartScreen = () => {
         </View>
         <TouchableOpacity
           className="bg-[#00CCBB] p-3 mx-4 rounded-md mb-3"
-          onPress={() => navigation.navigate("PreparingOrder")}
+          onPress={() => navigation.navigate("Delivery")}
         >
           <Text className=" text-white text-center font-medium text-lg">
             Donate Now!
