@@ -39,7 +39,9 @@ const CartScreen = () => {
       <View className="bg-gray-100 flex-1">
         <View className="flex-row bg-white p-5 border-b border-[#00CCBB] shadow-sm">
           <View className="flex-1">
-            <Text className="text-lg font-bold text-center">Cart</Text>
+            <Text className="text-lg font-bold text-center">
+              Donation Details
+            </Text>
             <Text className="text-center text-gray-400">
               {restaurantname.title}
             </Text>
@@ -65,38 +67,6 @@ const CartScreen = () => {
                 <Text className="text-[#00ccbb] font-medium">Change</Text>
               </TouchableOpacity>
             </View>
-            <ScrollView className="divide-y divide-gray-200">
-              {Object.entries(groupedItems).map(([key, items]) => (
-                <View
-                  key={key}
-                  className="flex-row justify-between p-5 content-center mb-2 bg-white"
-                >
-                  <View className="flex-row space-x-2 items-center">
-                    <Text className="text-[#00CCBB] mr-1">
-                      {items.length} X
-                    </Text>
-                    <Image
-                      source={{ uri: items[0].imgUrl }}
-                      className="h-10 w-10 rounded-full mr-2"
-                    />
-                    <Text className="text-md">{items[0].title}</Text>
-                  </View>
-                  <View className="flex-row space-x-2 items-center">
-                    <Text className="text-gray-400">
-                      <View className="flex-row items-center">
-                        <Text className="text-gray-400 mr-2">
-                          {items[0].price}
-                        </Text>
-                        <Icon name="coins" className="text-gray-400" />
-                      </View>
-                    </Text>
-                    <TouchableOpacity>
-                      <Text className="text-[#00CCBB]">Remove</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              ))}
-            </ScrollView>
           </View>
         </View>
         <ScrollView className="divide-y divide-gray-200">
@@ -115,12 +85,10 @@ const CartScreen = () => {
               </View>
               <View className="flex-row space-x-2 items-center">
                 <Text className="text-gray-400">
-                  <NumberFormat
-                    thousandSeparator={true}
-                    thousandsGroupStyle="lakh"
-                    prefix={"₹"}
-                    value={items[0].price}
-                  />
+                  <View className="flex-row items-center">
+                    <Text className="text-gray-400 mr-2">{items[0].price}</Text>
+                    <Icon name="coins" className="text-gray-400" />
+                  </View>
                 </Text>
                 <TouchableOpacity>
                   <Text className="text-[#00CCBB]">Remove</Text>
