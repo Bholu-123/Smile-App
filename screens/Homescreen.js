@@ -56,7 +56,6 @@ const Homescreen = () => {
         }
 
         setCategories(categoriesArray);
-        console.log("++++CALLAL");
         setRefreshing(false);
       })
       .catch((err) => {
@@ -120,7 +119,6 @@ const Homescreen = () => {
 };
 const styles = StyleSheet.create({
   AndroidSafeArea: {
-    // a workaround for SafeAreaView in Android
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 });

@@ -47,6 +47,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {},
   signInText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    letterSpacing: 0.5,
+    fontWeight: "500",
+    lineHeight: 20,
+  },
+  headerText: {
     color: "#9ea9b3",
     fontSize: 15,
     letterSpacing: 0.5,
@@ -64,7 +71,7 @@ const SelectUserType = () => {
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={styles.headerContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
-          <Text style={styles.signInText}>
+          <Text style={styles.headerText}>
             Select your mode you want to use
           </Text>
         </View>
@@ -72,7 +79,7 @@ const SelectUserType = () => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={{
-              backgroundColor: "#182952",
+              backgroundColor: "#00CCBB",
               height: scale(50),
               borderRadius: scale(10),
               flexDirection: "row",
@@ -89,7 +96,7 @@ const SelectUserType = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              backgroundColor: "#182952",
+              backgroundColor: "#00CCBB",
               height: scale(50),
               borderRadius: scale(10),
               flexDirection: "row",

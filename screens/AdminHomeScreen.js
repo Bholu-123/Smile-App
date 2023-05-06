@@ -16,6 +16,11 @@ import { addNgo, getAllCategories } from "../components/api/Auth";
 import Icon from "react-native-vector-icons/AntDesign";
 import { scale } from "react-native-size-matters";
 import { useSelector } from "react-redux";
+import constants from "../components/constants";
+
+const { CLOUD_NAME, UPLOAD_PRESET } = constants;
+
+// import { cloudinary } from "cloudinary";
 
 const validationSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -23,7 +28,7 @@ const validationSchema = yup.object().shape({
 });
 
 const AdminHomeScreen = () => {
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const initialValues = {
@@ -34,10 +39,34 @@ const AdminHomeScreen = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState(null);
   const [catergory, setCategory] = useState([]);
-  // const [selectedCategory, setSelectedCategory] = useState(null);
+
   const onDropdownOpen = useCallback(() => {
     //   setCompanyOpen(false);
   }, []);
+
+  const uploadImageToCloudinary = async (base64Image) => {
+    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+    const data = {
+      file: base64Image,
+      upload_preset: UPLOAD_PRESET,
+    };
+
+    try {
+      const response = await fetch(cloudinaryUrl, {
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+      });
+      const responseData = await response.json();
+      return responseData.secure_url;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -45,10 +74,14 @@ const AdminHomeScreen = () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
     if (!result?.canceled) {
-      setImage(result?.assets?.[0]?.uri);
+      const imageUri = `data:image/jpg;base64,${result?.assets?.[0]?.base64}`;
+      const imageUrl = await uploadImageToCloudinary(imageUri);
+      console.log("IMAGE URL", imageUrl);
+      setImageUrl(imageUrl);
     }
   };
   true;
@@ -73,7 +106,7 @@ const AdminHomeScreen = () => {
   }, []);
 
   return (
-    <View className="m-4 mt-10 flex justify-center">
+    <View className="m-4 mt-10 flex justify-center bg-white">
       <Text className="text-3xl font-bold">Welcome</Text>
       <Text className="text-base font-normal text-gray-600 mb-2">
         You can register your Ngo from here
@@ -88,18 +121,18 @@ const AdminHomeScreen = () => {
               content: values?.content,
               categoryId: dropdownValue,
               userId: user?._id,
-              imageUrl: image,
+              imageUrl: imageUrl,
             };
             addNgo(obj)
               .then((res) => {
-                console.log("+++++RESSS", res);
+                console.log("RES", res);
                 setShowSpinner(false);
                 setDropdownValue("");
-                setImage(null);
+                setImageUrl(null);
                 resetForm({ values: initialValues });
               })
               .catch((err) => {
-                console.log("++++ERRORT IN ADDING NGO", err);
+                console.log("ERRORT IN ADDING NGO", err);
                 setShowSpinner(false);
               });
           }}
@@ -147,17 +180,17 @@ const AdminHomeScreen = () => {
                 zIndex={9999}
               />
 
-              {image ? (
+              {imageUrl ? (
                 <View className="w-full h-40 border-2 border-solid border-gray-400 mb-2 relative p-6 rounded">
                   <Icon
                     name="close"
                     className="absolute top-0 text-2xl right-0"
                     onPress={() => {
-                      setImage(null);
+                      setImageUrl(null);
                     }}
                   />
                   <Image
-                    source={{ uri: image }}
+                    source={{ uri: imageUrl }}
                     className="w-full h-full object-cover"
                   />
                 </View>

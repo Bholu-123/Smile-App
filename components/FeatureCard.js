@@ -16,6 +16,7 @@ const FeatureCard = ({
   address,
   genre,
 }) => {
+  const image = require("../assets/profile-image-bg.jpg");
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -38,7 +39,7 @@ const FeatureCard = ({
       <Image
         source={{
           // uri:urlFor(imgUrl).url(),
-          uri: imgUrl,
+          uri: imgUrl ?? image,
         }}
         className="h-36 w-64 rounded-sm"
       />

@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-// import { styles } from "./styles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { scale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +15,9 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import { registerUser } from "../components/api/Auth";
 import Toast from "react-native-root-toast";
+import Icon from "react-native-vector-icons/AntDesign";
+import MailIcon from "react-native-vector-icons/Fontisto";
+import EyeIcon from "react-native-vector-icons/Feather";
 
 import { Dimensions } from "react-native";
 // import EstyleSheet from "react-native-extended-stylesheet";
@@ -36,7 +38,7 @@ export const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 30,
-    // fontWeight: 600,
+    fontWeight: "600",
     color: "#232323",
     lineHeight: 35,
     letterSpacing: 0.4,
@@ -45,7 +47,6 @@ export const styles = StyleSheet.create({
     color: "#9ea9b3",
     fontSize: 15,
     letterSpacing: 0.5,
-    // fontWeight: 500,
     lineHeight: 20,
   },
   formContainer: {},
@@ -61,7 +62,6 @@ export const styles = StyleSheet.create({
     borderColor: "#9ea9b3",
     borderRadius: moderateScale(8),
     paddingHorizontal: moderateScale(10),
-    // fontWeight: 500,
     fontSize: 15,
     letterSpacing: 0.2,
     lineHeight: 20,
@@ -80,7 +80,41 @@ export const styles = StyleSheet.create({
   },
   signText: {
     marginLeft: moderateScale(5),
-    color: "#232323",
+    color: "#00CCBB",
+  },
+
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  inputIcon: {
+    marginRight: 10,
+    color: "#00CCBB",
+  },
+  input: {
+    flex: 1,
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 2,
+    paddingVertical: 10,
+  },
+  passwordicon: {
+    marginHorizontal: 10,
+    color: "#00CCBB",
+  },
+  passwordinput: {
+    flex: 1,
+    color: "#333",
   },
 });
 
@@ -119,7 +153,7 @@ const Register = () => {
         <View style={styles.headerContainer}>
           <Text style={styles.welcomeText}>Welcome</Text>
           <Text style={styles.signInText}>
-            Sign up to access more features.
+            Create your account to access more features.
           </Text>
         </View>
 
@@ -131,24 +165,32 @@ const Register = () => {
               email: "",
               password: "",
             }}
-            onSubmit={async (values) => {
+            onSubmit={async (values, { resetForm }) => {
               setShowSpinner(true);
 
               registerUser(values, modeType)
                 .then((res) => {
                   setShowSpinner(false);
+                  resetForm({
+                    values: {
+                      name: "",
+                      email: "",
+                      password: "",
+                    },
+                  });
                   setToastMessage({
                     show: true,
-                    msg: res.message,
+                    msg: "Account created successfully",
                   });
+
                   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
                   setTimeout(function hideToast() {
                     setToastMessage({
                       show: false,
                       msg: "",
                     });
+                    navigation.navigate("Login");
                   }, 1500);
-                  navigation.navigate("Login");
                 })
                 .catch((err) => {
                   setToastMessage({
@@ -176,8 +218,9 @@ const Register = () => {
               touched,
             }) => (
               <>
-                <View style={styles.inputContainer}>
-                  <View style={styles.wrapper}>
+                <View className="mb-4">
+                  <View style={styles.inputContainer}>
+                    <Icon name="user" size={20} style={styles.inputIcon} />
                     <TextInput
                       style={styles.input}
                       placeholder="Enter Name"
@@ -185,21 +228,23 @@ const Register = () => {
                       onChangeText={handleChange("name")}
                       placeholderTextColor={"#232323"}
                     />
-
-                    {errors.name && touched.name && (
-                      <Text
-                        style={{
-                          fontSize: scale(10),
-                          color: "red",
-                          marginTop: scale(5),
-                        }}
-                      >
-                        {errors.name}
-                      </Text>
-                    )}
                   </View>
 
-                  <View style={styles.wrapper}>
+                  {errors.name && touched.name && (
+                    <Text
+                      style={{
+                        fontSize: scale(10),
+                        color: "red",
+                        marginTop: scale(5),
+                      }}
+                    >
+                      {errors.name}
+                    </Text>
+                  )}
+                </View>
+                <View className="mb-4">
+                  <View style={styles.inputContainer}>
+                    <MailIcon name="email" size={20} style={styles.inputIcon} />
                     <TextInput
                       style={styles.input}
                       placeholder="Enter Email"
@@ -208,81 +253,58 @@ const Register = () => {
                       onChangeText={handleChange("email")}
                       placeholderTextColor={"#232323"}
                     />
-
-                    {errors.email && touched.email && (
-                      <Text
-                        style={{
-                          fontSize: scale(10),
-                          color: "red",
-                          marginTop: scale(5),
-                        }}
-                      >
-                        {errors.email}
-                      </Text>
-                    )}
                   </View>
 
-                  <View style={styles.wrapper}>
-                    <View style={styles.input}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <View style={{ width: "80%" }}>
-                          <TextInput
-                            placeholder="Enter Password"
-                            secureTextEntry={showPassword}
-                            style={{
-                              height: scale(50),
-                              width: "100%",
-                              color: "#232323",
-                              // fontWeight: "bold",
-                              fontSize: 15,
-                              letterSpacing: 0.5,
-                              lineHeight: 20,
-                            }}
-                            name="password"
-                            onChangeText={handleChange("password")}
-                            placeholderTextColor={"#232323"}
-                          />
+                  {errors.email && touched.email && (
+                    <Text
+                      style={{
+                        fontSize: scale(10),
+                        color: "red",
+                        marginTop: scale(5),
+                      }}
+                    >
+                      {errors.email}
+                    </Text>
+                  )}
+                </View>
+                <View className="mb-4" style={styles.passwordContainer}>
+                  <Icon name="lock" size={20} style={styles.passwordicon} />
+                  <TextInput
+                    placeholder="Enter Password"
+                    secureTextEntry={showPassword}
+                    name="password"
+                    onChangeText={handleChange("password")}
+                    placeholderTextColor={"#232323"}
+                    style={styles.passwordinput}
+                  />
+                  {errors.password && touched.password && (
+                    <Text
+                      style={{
+                        fontSize: scale(10),
+                        color: "red",
+                        marginTop: scale(5),
+                      }}
+                    >
+                      {errors.password}
+                    </Text>
+                  )}
 
-                          {errors.password && touched.password && (
-                            <Text
-                              style={{
-                                fontSize: scale(10),
-                                color: "red",
-                                marginTop: scale(5),
-                              }}
-                            >
-                              {errors.password}
-                            </Text>
-                          )}
-                        </View>
-
-                        <TouchableOpacity
-                          onPress={() =>
-                            setShowPassword((prevState) => !prevState)
-                          }
-                          style={{ alignSelf: "center" }}
-                        >
-                          <Ionicons
-                            name={showPassword ? "key-outline" : "key"}
-                            size={20}
-                            color={"#232323"}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
+                  <TouchableOpacity
+                    onPress={() => setShowPassword((prevState) => !prevState)}
+                  >
+                    <EyeIcon
+                      name={showPassword ? "eye-off" : "eye"}
+                      size={20}
+                      style={styles.passwordicon}
+                    />
+                  </TouchableOpacity>
                 </View>
 
                 <View style={styles.btnContainer}>
                   <TouchableOpacity
                     onPress={handleSubmit}
                     style={{
-                      backgroundColor: "#182952",
+                      backgroundColor: "#00CCBB",
                       height: scale(50),
                       borderRadius: scale(10),
                       flexDirection: "row",
@@ -290,7 +312,15 @@ const Register = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Text style={{ color: "#fff" }}>Register</Text>
+                    <Text
+                      style={{
+                        color: "#fff",
+                        fontWeight: "500",
+                        fontSize: 16,
+                      }}
+                    >
+                      Create Accont
+                    </Text>
 
                     {showSpinner && <ActivityIndicator color={"#fff"} />}
                   </TouchableOpacity>
@@ -302,21 +332,26 @@ const Register = () => {
 
         <View style={styles.footerContainer}>
           <View style={styles.footerContainerInner}>
-            <Text style={styles.newUserText}>I am already a member,</Text>
+            <Text style={styles.newUserText}>Already have an account?</Text>
 
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text style={styles.signText}>Sign In</Text>
+              <Text style={styles.signText}>Log In</Text>
             </TouchableOpacity>
-            <Toast
-              visible={toastMessage.show}
-              position={-20}
-              shadow={false}
-              animation={false}
-              hideOnPress={true}
-              backgroundColor={"#182952"}
-            >
-              {toastMessage.msg}
-            </Toast>
+            {toastMessage.show && (
+              <Toast
+                visible={toastMessage.show}
+                position={-20}
+                shadow={false}
+                animation={true}
+                hideOnPress={true}
+                backgroundColor={"#00CCBB"}
+                onHide={() => {
+                  navigation.navigate("Login");
+                }}
+              >
+                {toastMessage.msg}
+              </Toast>
+            )}
           </View>
         </View>
       </ScrollView>

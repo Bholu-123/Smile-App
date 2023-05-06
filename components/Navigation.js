@@ -25,7 +25,16 @@ const Navigation = () => {
       }}
       initialRouteName={isOnboardingDisabled ? "SelectUserType" : "Onboarding"}
     >
-      <Stack.Group screenOptions={{ statusBarHidden: false }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "fullScreenModal",
+          headerShown: false,
+          animation: "slide_from_bottom",
+          statusBarTranslucent: false,
+          statusBarHidden: false,
+          statusBarColor: "#00CCBB",
+        }}
+      >
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="SelectUserType" component={SelectUserType} />
         <Stack.Screen name="Home" component={Homescreen} />

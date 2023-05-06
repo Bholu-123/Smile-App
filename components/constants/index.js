@@ -3,6 +3,9 @@ import { DefaultTheme, DarkTheme } from "@react-navigation/native";
 export default {
   asyncStorageKey: "SmileApp",
   BASE_URL: "https://smile-app-be.vercel.app",
+  CLOUD_NAME: "dylagiij7",
+  UPLOAD_PRESET: "myAppUpload",
+
   THEME: {
     primary: "#062743",
     secondary: "#182952",
