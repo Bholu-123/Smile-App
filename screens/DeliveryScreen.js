@@ -11,7 +11,7 @@ import * as Progress from "react-native-progress";
 import { useSelector } from "react-redux";
 import { getRestaurant } from "../slices/restaurantSlice";
 import { useNavigation } from "@react-navigation/native";
-// import MapView from 'react-native-maps'
+
 import MapView, { Marker } from "react-native-maps";
 
 const DeliveryScreen = () => {
