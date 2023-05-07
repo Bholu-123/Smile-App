@@ -5,6 +5,7 @@ export default {
   BASE_URL: "https://smile-app-be.vercel.app",
   CLOUD_NAME: "dylagiij7",
   UPLOAD_PRESET: "myAppUpload",
+  EXTRA_POINT: 5,
 
   THEME: {
     primary: "#062743",

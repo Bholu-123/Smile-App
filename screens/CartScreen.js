@@ -17,16 +17,18 @@ import { getRestaurant } from "../slices/restaurantSlice";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { removeItem } from "../slices/Actions/cartActions";
 import { calculateTotalCoins } from "../utils/cartUtils";
+import constants from "../components/constants";
 
 const CartScreen = () => {
   const restaurantname = useSelector(getRestaurant);
   const dispatch = useDispatch();
+  const { EXTRA_POINT } = constants;
 
   const navigation = useNavigation();
   const itemsInCart = useSelector((state) => state.cart.cartDetail);
-  const totalCoin = calculateTotalCoins(itemsInCart, itemsValue);
 
   const itemsValue = useSelector((state) => state.cart.cartValue);
+  const totalCoin = calculateTotalCoins(itemsInCart, itemsValue);
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -115,14 +117,14 @@ const CartScreen = () => {
         <View className="flex-row justify-between px-5 py-2">
           <Text className="text-gray-400">Extra points</Text>
           <View className="flex-row items-center">
-            <Text className="text-gray-400">5.99</Text>
+            <Text className="text-gray-400">{EXTRA_POINT}</Text>
             <Icon name="coins" className="text-gray-400 ml-2" />
           </View>
         </View>
         <View className="flex-row justify-between px-5 py-2">
           <Text>Total points</Text>
           <View className="flex-row items-center">
-            <Text className="font-bold">{totalCoin + 5.99}</Text>
+            <Text className="font-bold">{totalCoin + EXTRA_POINT}</Text>
             <Icon name="coins" className="text-gray-400 ml-2" />
           </View>
         </View>
