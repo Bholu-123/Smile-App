@@ -32,8 +32,16 @@ const CartScreen = () => {
       groupedItems[item.id].push(item);
     }
   });
-  console.log(groupedItems);
-
+  console.log("grouped items:", groupedItems);
+  let totalPrice = 0;
+  for (const category in groupedItems) {
+      for (const item of groupedItems[category]) {
+          totalPrice += item.price;
+      }
+  }
+  
+  console.log("Total price:", totalPrice);
+  
   return (
     <SafeAreaView className="bg-white flex-1">
       <View className="bg-gray-100 flex-1">
@@ -60,7 +68,7 @@ const CartScreen = () => {
                 source={{ uri: "https://links.papareact.com/wru" }}
                 className="h-8 w-8 rounded-full"
               />
-              <Text className="font-medium">Delivers in 40-45 minutes</Text>
+              <Text className="font-medium">Will be picked up soon!</Text>
             </View>
             <View className="items-center">
               <TouchableOpacity>
@@ -104,7 +112,7 @@ const CartScreen = () => {
           <Text className="text-gray-400">Reward points</Text>
 
           <View className="flex-row items-center">
-            <Text className="text-gray-400">116.85</Text>
+            <Text className="text-gray-400">{totalPrice}</Text>
             <Icon name="coins" className="text-gray-400 ml-2" />
           </View>
         </View>
@@ -118,7 +126,7 @@ const CartScreen = () => {
         <View className="flex-row justify-between px-5 py-2">
           <Text>Total points</Text>
           <View className="flex-row items-center">
-            <Text className="font-bold">122.84</Text>
+            <Text className="font-bold">{totalPrice + 5.99}</Text>
             <Icon name="coins" className="text-gray-400 ml-2" />
           </View>
         </View>
