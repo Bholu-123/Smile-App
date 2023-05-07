@@ -345,9 +345,6 @@ const Register = () => {
                 animation={true}
                 hideOnPress={true}
                 backgroundColor={"#00CCBB"}
-                onHide={() => {
-                  navigation.navigate("Login");
-                }}
               >
                 {toastMessage.msg}
               </Toast>

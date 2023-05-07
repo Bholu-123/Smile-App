@@ -3,6 +3,8 @@ import React from "react";
 import { StarIcon, MapPinIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import Restaurantscreen from "../screens/Restaurantscreen";
+import { resetCart } from "../slices/Actions/cartActions";
+import { useDispatch } from "react-redux";
 
 const FeatureCard = ({
   id,
@@ -18,6 +20,7 @@ const FeatureCard = ({
 }) => {
   const image = require("../assets/profile-image-bg.jpg");
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   return (
     <TouchableOpacity
       className="shadow bg-white mr-4"
@@ -34,6 +37,7 @@ const FeatureCard = ({
           address,
           genre,
         });
+        resetCart(0, {}, dispatch);
       }}
     >
       <Image

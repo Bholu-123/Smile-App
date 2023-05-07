@@ -11,7 +11,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { scale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
-import { Formik, Field } from "formik";
+import { Formik } from "formik";
 import { loginUser } from "../components/api/Auth";
 import { setTokenInterceptor } from "../utils/setTokenInterceptor";
 import Toast from "react-native-root-toast";
@@ -19,7 +19,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   updateUserLogin,
   updateUserAccessToken,
-  getUsers,
 } from "../slices/Actions/authActions";
 import { Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -343,13 +342,6 @@ const Login = () => {
                 animation={true}
                 hideOnPress={true}
                 backgroundColor={"#00CCBB"}
-                onHide={() => {
-                  if (modeType === "Admin") {
-                    navigation.navigate("AdminHome");
-                  } else {
-                    navigation.navigate("Home");
-                  }
-                }}
               >
                 {toastMessage.msg}
               </Toast>

@@ -11,12 +11,14 @@ import {
 import DishCard from "../components/DishCard";
 import CartSticker from "../components/CartSticker";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemsToCart } from "../slices/cartCountSlice";
+// import { addItemsToCart } from "../slices/cartCountSlice";
 import { setRestaurant } from "../slices/restaurantSlice";
 
 export default function Restaurantscreen() {
-  //  const route = useRoute();
-  //  const title = route.params.title;
+  const itemsInCart = useSelector((state) => state.cart.cartDetail);
+  const itemsValue = useSelector((state) => state.cart.cartValue);
+
+  console.log;
   const dispatch = useDispatch();
   const Navigation = useNavigation();
   const {
@@ -39,7 +41,7 @@ export default function Restaurantscreen() {
       headerShown: false,
     });
   }, []);
-  const totalItem = useSelector(addItemsToCart);
+
   useEffect(() => {
     dispatch(
       setRestaurant({
@@ -113,19 +115,19 @@ export default function Restaurantscreen() {
         </View>
 
         <View>
-          <Text className="font-extrabold text-3xl m-2">Menu</Text>
+          <Text className="font-extrabold text-3xl m-2">ITEMS</Text>
           <DishCard
             imgUrl="https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1527&q=80"
             title="Clothes"
             description="Donate this iteam and put a smile on a lot of innocent faces"
-            price={5}
+            price={1}
             id={2}
           />
           <DishCard
             imgUrl="https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             title="Food"
             description="Donate this iteam and put a smile on a lot of innocent faces"
-            price={5}
+            price={3}
             id={5}
           />
           <DishCard
@@ -139,14 +141,14 @@ export default function Restaurantscreen() {
             imgUrl="https://media.istockphoto.com/id/1279811066/photo/folded-grey-and-white-checkered-blanked-on-an-isolated-white-background.jpg?s=1024x1024&w=is&k=20&c=sN3BJw5eUbDe6tAWGOPdJwSnc6CG3TlND3i7RJDktw8="
             title="Blanket"
             description="Donate this iteam and put a smile on a lot of innocent faces"
-            price={5}
+            price={2}
             id={76}
           />
           <DishCard
             imgUrl="https://media.istockphoto.com/id/1058036480/photo/flat-lay-with-comfort-warm-outfit-for-cold-weather-comfortable-autumn-winter-clothes-shopping.jpg?s=612x612&w=is&k=20&c=yfvYNtF6fNWu8TARPFumDzJJPSuHDXacoGefhvDGZ2c="
             title="Winter Wear"
             description="Donate this iteam and put a smile on a lot of innocent faces"
-            price={5}
+            price={4}
             id={21}
           />
           <DishCard
@@ -160,12 +162,12 @@ export default function Restaurantscreen() {
             imgUrl="https://media.istockphoto.com/id/589415708/photo/fresh-fruits-and-vegetables.jpg?s=612x612&w=is&k=20&c=0KUXg_vETkKHFrjtTWrY8EbFW-KVkwjrmAnS43ljqHA="
             title="Raw Vegetables"
             description="Donate this iteam and put a smile on a lot of innocent faces"
-            price={5}
+            price={1}
             id={24}
           />
         </View>
       </ScrollView>
-      {totalItem.length > 0 && <CartSticker />}
+      {itemsInCart?.length > 0 && <CartSticker />}
     </>
   );
 }

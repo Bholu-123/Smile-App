@@ -23,7 +23,7 @@ const Navigation = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={isOnboardingDisabled ? "SelectUserType" : "Onboarding"}
+      initialRouteName={"Home"}
     >
       <Stack.Group
         screenOptions={{

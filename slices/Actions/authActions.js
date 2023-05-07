@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   UPDATE_APP_MODE_TYPE,
   UPDATE_ONBOARDING_STATUS,

@@ -7,32 +7,26 @@ import {
   ScrollView,
 } from "react-native";
 import React from "react";
-import { useSelector } from "react-redux";
-import { addItemsToCart } from "../slices/cartCountSlice";
+import { useSelector, useDispatch } from "react-redux";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { XCircleIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 
 import { getRestaurant } from "../slices/restaurantSlice";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { removeItem } from "../slices/Actions/cartActions";
+import { calculateTotalCoins } from "../utils/cartUtils";
 
 const CartScreen = () => {
-  const items = useSelector(addItemsToCart);
   const restaurantname = useSelector(getRestaurant);
-  console.log("restaurant name: " + restaurantname);
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
-  const groupedItems = {};
-  const dataArray = {};
-  // const groupedItems2= {};
-  items.forEach((item) => {
-    if (groupedItems.hasOwnProperty(item.id)) {
-      groupedItems[item.id].push(item);
-    } else {
-      groupedItems[item.id] = [];
-      groupedItems[item.id].push(item);
-    }
-  });
-  console.log(groupedItems);
+  const itemsInCart = useSelector((state) => state.cart.cartDetail);
+  const totalCoin = calculateTotalCoins(itemsInCart, itemsValue);
+
+  const itemsValue = useSelector((state) => state.cart.cartValue);
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -60,37 +54,47 @@ const CartScreen = () => {
                 source={{ uri: "https://links.papareact.com/wru" }}
                 className="h-8 w-8 rounded-full"
               />
-              <Text className="font-medium">Delivers in 40-45 minutes</Text>
+              <Text className="font-medium">Reaching in 40-45 minutes</Text>
             </View>
             <View className="items-center">
-              <TouchableOpacity>
-                <Text className="text-[#00ccbb] font-medium">Change</Text>
+              <TouchableOpacity onPress={navigation.goBack}>
+                <Text className="text-[#00ccbb] font-medium mt-2">
+                  Change Selection
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
         <ScrollView className="divide-y divide-gray-200">
-          {Object.entries(groupedItems).map(([key, items]) => (
+          {itemsInCart.map((items, idx) => (
             <View
-              key={key}
+              key={idx}
               className="flex-row justify-between p-5 content-center mb-2 bg-white"
             >
               <View className="flex-row space-x-2 items-center">
-                <Text className="text-[#00CCBB] mr-1">{items.length} X</Text>
+                <Text className="text-[#00CCBB] mr-1">
+                  {itemsValue?.[items?.id]} X
+                </Text>
                 <Image
-                  source={{ uri: items[0].imgUrl }}
+                  source={{ uri: items.imgUrl }}
                   className="h-10 w-10 rounded-full mr-2"
                 />
-                <Text className="text-md">{items[0].title}</Text>
+                <Text className="text-md">{items.title}</Text>
               </View>
               <View className="flex-row space-x-2 items-center">
                 <Text className="text-gray-400">
                   <View className="flex-row items-center">
-                    <Text className="text-gray-400 mr-2">{items[0].price}</Text>
+                    <Text className="text-gray-400 mr-2">
+                      {itemsValue?.[items?.id] * items.price}
+                    </Text>
                     <Icon name="coins" className="text-gray-400" />
                   </View>
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    removeItem(items?.id, dispatch);
+                  }}
+                >
                   <Text className="text-[#00CCBB]">Remove</Text>
                 </TouchableOpacity>
               </View>
@@ -104,7 +108,7 @@ const CartScreen = () => {
           <Text className="text-gray-400">Reward points</Text>
 
           <View className="flex-row items-center">
-            <Text className="text-gray-400">116.85</Text>
+            <Text className="text-gray-400">{totalCoin}</Text>
             <Icon name="coins" className="text-gray-400 ml-2" />
           </View>
         </View>
@@ -118,7 +122,7 @@ const CartScreen = () => {
         <View className="flex-row justify-between px-5 py-2">
           <Text>Total points</Text>
           <View className="flex-row items-center">
-            <Text className="font-bold">122.84</Text>
+            <Text className="font-bold">{totalCoin + 5.99}</Text>
             <Icon name="coins" className="text-gray-400 ml-2" />
           </View>
         </View>

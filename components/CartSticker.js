@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
-import { addItemsToCart, cartItemPrice } from "../slices/cartCountSlice";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { calculateTotalCoins } from "../utils/cartUtils";
 
 const CartSticker = () => {
-  const count = useSelector(addItemsToCart);
-  const sumTotal = useSelector(cartItemPrice);
+  const itemsInCart = useSelector((state) => state.cart.cartDetail);
+  const itemsValue = useSelector((state) => state.cart.cartValue);
+
+  const totalCoin = calculateTotalCoins(itemsInCart, itemsValue);
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -16,7 +18,7 @@ const CartSticker = () => {
     >
       <View className="flex-row items-center space-x-1">
         <Text className="font-extrabold text-white text-lg bg-[#097b71] px-2 py-2">
-          {count.length}
+          {itemsInCart?.length}
         </Text>
 
         <Text className="font-extrabold text-white text-lg flex-1 text-center">
@@ -24,7 +26,7 @@ const CartSticker = () => {
         </Text>
 
         <View className="flex-row items-center">
-          <Text className="font-extrabold text-white text-lg">{sumTotal}</Text>
+          <Text className="font-extrabold text-white text-lg">{totalCoin}</Text>
           <Icon
             name="coins"
             className="font-extrabold text-white text-lg ml-2"

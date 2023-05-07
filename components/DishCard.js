@@ -3,18 +3,13 @@ import React, { useState } from "react";
 
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addItemsToCart,
-  addItemsToCartWithId,
-  decrement,
-  increment,
-} from "../slices/cartCountSlice";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { decrementCart, incrementCart } from "../slices/Actions/cartActions";
 
 const DishCard = ({ imgUrl, title, description, price, id }) => {
   const [isClicked, setIsCLicked] = useState(false);
   const dispatch = useDispatch();
-  const itemList = useSelector((state) => addItemsToCartWithId(state, id));
+  const itemsValue = useSelector((state) => state.cart.cartValue?.[id]);
 
   return (
     <>
@@ -29,7 +24,7 @@ const DishCard = ({ imgUrl, title, description, price, id }) => {
             <Text className="text-lg mb-1">{title}</Text>
             <Text className="text-gray-400">{description}</Text>
             <View className="flex-row items-center">
-              <Text className="text-gray-400">5</Text>
+              <Text className="text-gray-400">{price}</Text>
               <Icon name="coins" className="text-gray-400 ml-2" />
             </View>
           </View>
@@ -49,15 +44,25 @@ const DishCard = ({ imgUrl, title, description, price, id }) => {
         <View className="flex-row mb-1 items-center space-x-2 bg-white px-4">
           <TouchableOpacity
             onPress={() => {
-              dispatch(increment({ imgUrl, title, description, price, id }));
+              const value = 1;
+              const cartObj = {
+                imgUrl,
+                title,
+                description,
+                price,
+                id,
+              };
+              incrementCart(value, cartObj, dispatch);
             }}
           >
             <PlusCircleIcon size={35} color="#00CCBB" />
           </TouchableOpacity>
-
-          <Text>{itemList.length}</Text>
-
-          <TouchableOpacity onPress={() => dispatch(decrement(id))}>
+          <Text>{itemsValue ? (itemsValue >= 0 ? itemsValue : 0) : 0}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              decrementCart(id, dispatch);
+            }}
+          >
             <MinusCircleIcon size={35} color="#00CCBB" />
           </TouchableOpacity>
         </View>
