@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { getRestaurant } from "../slices/restaurantSlice";
 import { useNavigation } from "@react-navigation/native";
 
-import MapView, { Marker } from "react-native-maps";
+// import MapView, { Marker } from "react-native-maps";
 
 const DeliveryScreen = () => {
   const restName = useSelector(getRestaurant);
@@ -51,7 +51,7 @@ const DeliveryScreen = () => {
         </Text>
       </View>
 
-      <MapView
+      {/* <MapView
         initialRegion={{
           latitude: restName.lat,
           longitude: restName.long,
@@ -71,7 +71,7 @@ const DeliveryScreen = () => {
           identifier="origin"
           pinColor="#00ccbb"
         />
-      </MapView>
+      </MapView> */}
 
       <SafeAreaView className="bg-white flex-row items-center space-x-5 h-28">
         <Image
