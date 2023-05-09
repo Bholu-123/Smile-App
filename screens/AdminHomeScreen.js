@@ -17,6 +17,9 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { scale } from "react-native-size-matters";
 import { useSelector } from "react-redux";
 import constants from "../components/constants";
+import MapIcon from "react-native-vector-icons/FontAwesome";
+import { PermissionsAndroid } from "react-native";
+import * as Location from "expo-location";
 
 const { CLOUD_NAME, UPLOAD_PRESET } = constants;
 
@@ -105,8 +108,40 @@ const AdminHomeScreen = () => {
       });
   }, []);
 
+  const requestLocationAccess = async () => {
+    const granted = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "Smile App need Permission",
+        message:
+          "Smile App needs access to your GPS " +
+          "so you can see nearby stations.",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK",
+      }
+    );
+
+    if (granted) {
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("++++LAT", location?.coords?.latitude);
+      console.log("++++LAT", location?.coords?.longitude);
+    } else {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "Smile App need Permission",
+          message: "Smile App needs access to your GPS",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK",
+        }
+      );
+    }
+  };
+
   return (
-    <View className="m-4 mt-10 flex justify-center bg-white">
+    <View className="flex justify-center bg-white p-4 h-full">
       <Text className="text-3xl font-bold">Welcome</Text>
       <Text className="text-base font-normal text-gray-600 mb-2">
         You can register your Ngo from here
@@ -179,6 +214,15 @@ const AdminHomeScreen = () => {
                 onOpen={onDropdownOpen}
                 zIndex={9999}
               />
+              <TouchableOpacity
+                className="flex flex-row my-2"
+                onPress={requestLocationAccess}
+              >
+                <MapIcon name="map-marker" size={20} color="red" />
+                <Text className="text-red-600 ml-2 text-sm">
+                  Auto Detect My Location
+                </Text>
+              </TouchableOpacity>
 
               {imageUrl ? (
                 <View className="w-full h-40 border-2 border-solid border-gray-400 mb-2 relative p-6 rounded">
@@ -199,7 +243,7 @@ const AdminHomeScreen = () => {
                   <TouchableOpacity
                     onPress={pickImage}
                     style={{
-                      backgroundColor: "#182952",
+                      backgroundColor: "#00CCBB",
                       height: scale(50),
                       borderRadius: scale(10),
                       flexDirection: "row",
@@ -214,11 +258,12 @@ const AdminHomeScreen = () => {
                   </TouchableOpacity>
                 </View>
               )}
+
               <View>
                 <TouchableOpacity
                   onPress={handleSubmit}
                   style={{
-                    backgroundColor: "#182952",
+                    backgroundColor: "#00CCBB",
                     height: scale(50),
                     borderRadius: scale(10),
                     flexDirection: "row",
