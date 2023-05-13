@@ -10,6 +10,7 @@ const DishCard = ({ imgUrl, title, description, price, id }) => {
   const [isClicked, setIsCLicked] = useState(false);
   const dispatch = useDispatch();
   const itemsValue = useSelector((state) => state.cart.cartValue?.[id]);
+  const modeType = useSelector((state) => state.auth.appMode);
 
   return (
     <>
@@ -17,7 +18,9 @@ const DishCard = ({ imgUrl, title, description, price, id }) => {
         className={`bg-white border p-4 border-gray-200 ${
           isClicked && "border-b-0"
         }`}
-        onPress={() => setIsCLicked(!isClicked)}
+        onPress={() => {
+          if (modeType === "User") setIsCLicked(!isClicked);
+        }}
       >
         <View className="flex-row">
           <View className="flex-1 pr-2">

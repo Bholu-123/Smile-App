@@ -7,7 +7,10 @@ const API = axios.create({ baseURL: BASE_URL });
 
 // Login User
 export const loginUser = async (values, mode) => {
-  const url = mode === "Admin" ? "/api/admin/login" : "/api/users/login";
+  const url =
+    mode === "Admin" || mode === "NGO"
+      ? "/api/admin/login"
+      : "/api/users/login";
   const response = await API({
     method: "POST",
     url: url,
@@ -20,7 +23,7 @@ export const loginUser = async (values, mode) => {
 // Register User
 
 export const registerUser = async (values, mode) => {
-  const url = mode === "Admin" ? "/api/admin" : "/api/users";
+  const url = mode === "Admin" || mode === "NGO" ? "/api/admin" : "/api/users";
   const response = await API({
     method: "POST",
     url: url,
@@ -99,7 +102,19 @@ export const sendEmail = async (values) => {
 };
 
 export const getNotification = async (recieverId) => {
-  const url = `/api/notification/${recieverId}`;
+  // const url = `/api/notification/${recieverId}`;
+  const url = `/api/notification/64529a76d5790f8199dd6723`;
+  const response = await API({
+    method: "GET",
+    url: url,
+  });
+
+  return response.data.data;
+};
+
+export const getDonationItemById = async (itemId) => {
+  // const url = `/api/notification/${recieverId}`;
+  const url = `/api/donation/getById/${itemId}`;
   const response = await API({
     method: "GET",
     url: url,

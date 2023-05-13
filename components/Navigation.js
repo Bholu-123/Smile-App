@@ -14,6 +14,8 @@ import AdminHomeScreen from "../screens/AdminHomeScreen";
 import NgoTabs from "../screens/NgoTabs";
 import { isOnboardingDisabled } from "../slices/Actions/authActions";
 import Onboarding from "../screens/OnboardingScreen";
+import AdminDonationDetails from "../screens/AdminDonationDetails";
+import SuperAdminHomeScreen from "../screens/SuperAdminHomeScreen";
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -24,7 +26,7 @@ const Navigation = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"Onboarding"}
+      initialRouteName={"SuperAdminHomeScreen"}
     >
       <Stack.Group
         screenOptions={{
@@ -45,6 +47,14 @@ const Navigation = () => {
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen
+          name="AdminDonationDetails"
+          component={AdminDonationDetails}
+        />
+        <Stack.Screen
+          name="SuperAdminHomeScreen"
+          component={SuperAdminHomeScreen}
+        />
       </Stack.Group>
       <Stack.Group
         screenOptions={{

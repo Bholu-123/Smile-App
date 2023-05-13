@@ -1,15 +1,17 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const AdminNotifications = () => {
   const notification = useSelector(
     (state) => state.notification.notificationArray
   );
 
-  const renderItem = ({ item }) => {
-    console.log("+++ITEMS", item);
+  const navigation = useNavigation();
 
+  const renderItem = ({ item }) => {
+    console.log("ITEMS", item);
     console.log("Donated By Name", item?.donatedBy?.name);
     console.log("DONATED TO NGO", item?.donatedToNgo?.title);
     console.log("DONATED Details", item?.donationDetails);
@@ -20,7 +22,11 @@ const AdminNotifications = () => {
     console.log("Donated Items count", donationCount);
 
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("AdminDonationDetails", { item });
+        }}
+      >
         {/* <Image source={{ uri: item.avatar }} style={styles.avatar} /> */}
         <Text>{`${item?.donatedBy?.name} donated ${donationCount} items to ${item?.donatedToNgo?.title}`}</Text>
       </TouchableOpacity>
