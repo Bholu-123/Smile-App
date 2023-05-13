@@ -11,8 +11,8 @@ import {
   RefreshControl,
 } from "react-native";
 import { useLayoutEffect, useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { StyleSheet, BackHandler } from "react-native";
 import {
   ChevronDownIcon,
   UserIcon,
@@ -23,6 +23,7 @@ import Categories from "../components/Categories";
 import FeaturedContent from "../components/FeaturedContent";
 import * as React from "react";
 import { getAllCategories, getNgoByCategoryId } from "../components/api/Auth";
+import { useSelector, useDispatch } from "react-redux";
 
 const Homescreen = () => {
   const Navigation = useNavigation();
@@ -62,6 +63,33 @@ const Homescreen = () => {
         console.log("Error in fetching category", err);
       });
   };
+  const loggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log("User logged in: ", loggedIn);
+  const navigationState = useNavigation((state) => state);
+  console.log("Navigation state: ", navigationState);
+  const currentRoute = useRoute().name;
+
+  useEffect(() => {
+    // const currentIndex = navigationState.index;
+    // console.log("Current index: ", currentIndex);
+    console.log("Current route: ", currentRoute);
+    const handleBackPress = () => {
+      if (loggedIn && currentRoute === "Home") {
+        // Prevent going back to the login screen by returning true
+        return true;
+      }
+      // Allow default back button behavior for other screens
+      return false;
+    };
+
+    // Add event listener for back button press
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+    // Clean up event listener on component unmount
+    return () => {
+      backHandler.remove();
+    };
+  }, [navigationState, loggedIn]);
 
   return (
     <SafeAreaView style={styles.AndroidSafeArea} className="bg-white">
