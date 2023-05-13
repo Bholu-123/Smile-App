@@ -1,5 +1,4 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { accessibilityProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
 const initialState = {
   cartValue: {},

@@ -57,3 +57,53 @@ export const addNgo = async (value) => {
   });
   return response.data.data;
 };
+
+export const getNgoById = async (Id) => {
+  const url = `/api/ngo/getById/${Id}`;
+  const response = await API({
+    method: "GET",
+    url: url,
+  });
+
+  return response.data.data;
+};
+
+export const getAllDonationItems = async () => {
+  const url = "/api/donation/getAllItems";
+  const response = await API({
+    method: "GET",
+    url: url,
+  });
+  return response.data.data;
+};
+
+export const sendNotification = async (values) => {
+  const url = "/api/notification";
+  const response = await API({
+    method: "POST",
+    url: url,
+    data: values,
+  });
+
+  return response.data.data;
+};
+
+export const sendEmail = async (values) => {
+  const url = "/api/mail/send";
+  const response = await API({
+    method: "POST",
+    url: url,
+    data: values,
+  });
+  return response.data;
+};
+
+export const getNotification = async (recieverId) => {
+  const url = `/api/notification/${recieverId}`;
+  const response = await API({
+    method: "GET",
+    url: url,
+  });
+
+  return response.data.data;
+};

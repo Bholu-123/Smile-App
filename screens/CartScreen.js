@@ -5,8 +5,9 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,17 +19,68 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { removeItem } from "../slices/Actions/cartActions";
 import { calculateTotalCoins } from "../utils/cartUtils";
 import constants from "../components/constants";
+import { sendEmail, sendNotification } from "../components/api/Auth";
 
 const CartScreen = () => {
+  const [showSpinner, setShowSpinner] = useState(false);
   const restaurantname = useSelector(getRestaurant);
   const dispatch = useDispatch();
-  const { EXTRA_POINT } = constants;
+  const { EXTRA_POINT, EMAIL_SUBJECT, EMAIL_TEXT } = constants;
 
   const navigation = useNavigation();
   const itemsInCart = useSelector((state) => state.cart.cartDetail);
 
   const itemsValue = useSelector((state) => state.cart.cartValue);
   const totalCoin = calculateTotalCoins(itemsInCart, itemsValue);
+  const ngoData = useSelector((state) => state.ngo.ngoDetails);
+  const user = useSelector((state) => state.auth.user);
+
+  const sendNotificationToNgo = () => {
+    setShowSpinner(true);
+    let donationDetails = [];
+    itemsInCart.map((item) => {
+      let itemId = item?.id;
+      let value = itemsValue?.[itemId];
+      let obj = {
+        donationId: itemId,
+        donationValue: value,
+      };
+      donationDetails.push(obj);
+    });
+
+    let notificationData = {
+      donationDetails,
+      senderId: user?._id,
+      recieverId: ngoData?.addedBy?._id,
+      ngoId: ngoData?._id,
+    };
+
+    let emailData = {
+      to: ngoData?.addedBy?.email,
+      subject: EMAIL_SUBJECT,
+      text: EMAIL_TEXT,
+    };
+
+    sendNotification(notificationData)
+      .then((res) => {
+        sendEmail(emailData)
+          .then((res) => {
+            setShowSpinner(false);
+            navigation.navigate("PreparingOrder");
+            console.log("EMAIL SENT SUCCEFULLY", res);
+          })
+
+          .catch((err) => {
+            setShowSpinner(false);
+            console.log("Error in sending email", err);
+          });
+        console.log("Check for send notification response", res);
+      })
+      .catch((err) => {
+        setShowSpinner(false);
+        console.log("Error in sending notification", err);
+      });
+  };
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -130,11 +182,15 @@ const CartScreen = () => {
         </View>
         <TouchableOpacity
           className="bg-[#00CCBB] p-3 mx-4 rounded-md mb-3"
-          onPress={() => navigation.navigate("PreparingOrder")}
+          onPress={() => {
+            // navigation.navigate("PreparingOrder");
+            sendNotificationToNgo();
+          }}
         >
           <Text className=" text-white text-center font-medium text-lg">
             Donate Now!
           </Text>
+          {showSpinner && <ActivityIndicator color={"#fff"} />}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
