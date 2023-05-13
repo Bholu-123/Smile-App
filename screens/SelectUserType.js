@@ -102,6 +102,23 @@ const SelectUserType = () => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
+              marginBottom: scale(40),
+            }}
+            onPress={() => {
+              updateAppModeType("NGO", dispatch);
+              navigation.navigate("Login");
+            }}
+          >
+            <Text style={styles.signInText}>JOIN AS NGO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#00CCBB",
+              height: scale(50),
+              borderRadius: scale(10),
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
             onPress={() => {
               updateAppModeType("User", dispatch);

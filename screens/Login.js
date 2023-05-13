@@ -207,8 +207,10 @@ const Login = () => {
                       show: false,
                       msg: "",
                     });
-                    if (modeType === "Admin") {
+                    if (modeType === "NGO") {
                       navigation.navigate("NgoTabs");
+                    } else if (modeType === "Admin") {
+                      navigation.navigate("SuperAdminHomeScreen");
                     } else {
                       navigation.navigate("Home");
                     }

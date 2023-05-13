@@ -1,8 +1,10 @@
 import { View, Text, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const AdminNotifications = () => {
+  const navigation = useNavigation();
   const notification = useSelector(
     (state) => state.notification.notificationArray
   );
@@ -52,7 +54,9 @@ const AdminNotifications = () => {
           <View style={{ flexDirection: 'row', marginBottom: 4, alignItems: 'center', paddingHorizontal: 16 }}>
             <TouchableOpacity
               style={{ backgroundColor: '#00CCBB', padding: 8, borderRadius: 4 }}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate("AdminDonationDetails", { item });
+              }}
             >
               <Text style={{ color: '#FFFFFF' }}>Show details</Text>
             </TouchableOpacity>
