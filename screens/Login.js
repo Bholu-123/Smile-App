@@ -181,7 +181,7 @@ const Login = () => {
               setShowSpinner(true);
 
               loginUser(values, modeType)
-                .then((res) => {
+                .then(async (res) => {
                   updateUserLogin(res, true, dispatch);
                   updateUserAccessToken(res.token, dispatch);
                   setTokenInterceptor(res);
@@ -196,6 +196,11 @@ const Login = () => {
                     show: true,
                     msg: "You have logged in succefully",
                   });
+
+
+              // Store login data in SecureStore
+              //  await SecureStore.setItemAsync('isLoggedIn', 'true');
+              //  await SecureStore.setItemAsync('username', res.username);
 
                   setTimeout(function hideToast() {
                     setToastMessage({
