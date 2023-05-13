@@ -108,15 +108,15 @@ const CartScreen = () => {
                 source={{ uri: "https://links.papareact.com/wru" }}
                 className="h-8 w-8 rounded-full"
               />
-              <Text className="font-medium">Reaching in 40-45 minutes</Text>
+              <Text className="font-medium">We will pick up your donation soon!</Text>
             </View>
-            <View className="items-center">
+            {/* <View className="items-center">
               <TouchableOpacity onPress={navigation.goBack}>
                 <Text className="text-[#00ccbb] font-medium mt-2">
                   Change Selection
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
         <ScrollView className="divide-y divide-gray-200">
