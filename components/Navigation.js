@@ -11,6 +11,7 @@ import Login from "../screens/Login";
 import Register from "../screens/Register";
 import SelectUserType from "../screens/SelectUserType";
 import AdminHomeScreen from "../screens/AdminHomeScreen";
+import NgoTabs from "../screens/NgoTabs";
 import { isOnboardingDisabled } from "../slices/Actions/authActions";
 import Onboarding from "../screens/OnboardingScreen";
 const Stack = createNativeStackNavigator();
@@ -36,9 +37,10 @@ const Navigation = () => {
         }}
       >
         <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="NgoTabs" component={NgoTabs} />
         <Stack.Screen name="SelectUserType" component={SelectUserType} />
         <Stack.Screen name="Home" component={Homescreen} />
-        <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+        {/* <Stack.Screen name="AdminHome" component={AdminHomeScreen} /> */}
         <Stack.Screen name="Restaurant" component={Restaurantscreen} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="Login" component={Login} />

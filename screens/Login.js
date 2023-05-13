@@ -208,7 +208,7 @@ const Login = () => {
                       msg: "",
                     });
                     if (modeType === "Admin") {
-                      navigation.navigate("AdminHome");
+                      navigation.navigate("NgoTabs");
                     } else {
                       navigation.navigate("Home");
                     }

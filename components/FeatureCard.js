@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import Restaurantscreen from "../screens/Restaurantscreen";
 import { resetCart } from "../slices/Actions/cartActions";
 import { useDispatch } from "react-redux";
+import { setNgoData } from "../slices/Actions/ngoActions";
 
 const FeatureCard = ({
   id,
@@ -25,6 +26,8 @@ const FeatureCard = ({
     <TouchableOpacity
       className="shadow bg-white mr-4"
       onPress={() => {
+        setNgoData(id, dispatch);
+        // navigation.navigate("Restaurant");
         navigation.navigate("Restaurant", {
           id,
           imgUrl,

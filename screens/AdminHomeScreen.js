@@ -12,7 +12,11 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from "react-native-dropdown-picker";
-import { addNgo, getAllCategories } from "../components/api/Auth";
+import {
+  addNgo,
+  getAllCategories,
+  getNotification,
+} from "../components/api/Auth";
 import Icon from "react-native-vector-icons/AntDesign";
 import { scale } from "react-native-size-matters";
 import { useSelector } from "react-redux";
@@ -20,7 +24,8 @@ import constants from "../components/constants";
 import MapIcon from "react-native-vector-icons/FontAwesome";
 import { PermissionsAndroid } from "react-native";
 import * as Location from "expo-location";
-
+import { setNotificationData } from "../slices/Actions/notificationActions";
+import { useDispatch } from "react-redux";
 const { CLOUD_NAME, UPLOAD_PRESET } = constants;
 
 // import { cloudinary } from "cloudinary";
@@ -38,7 +43,7 @@ const AdminHomeScreen = () => {
     title: "",
     content: "",
   };
-
+  const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState(null);
   const [catergory, setCategory] = useState([]);
@@ -87,7 +92,17 @@ const AdminHomeScreen = () => {
       setImageUrl(imageUrl);
     }
   };
-  true;
+
+  const polling = () => {
+    getNotification(user?._id)
+      .then((res) => {
+        console.log("RESPONSE", res);
+        setNotificationData(res, dispatch);
+      })
+      .catch((err) => {
+        console.log("Error in fetching messages", err);
+      });
+  };
 
   useEffect(() => {
     getAllCategories()
@@ -106,6 +121,10 @@ const AdminHomeScreen = () => {
       .catch((err) => {
         console.log("Error in fetching category", err);
       });
+
+    // setInterval(() => {
+    polling();
+    // },10000)
   }, []);
 
   const requestLocationAccess = async () => {
