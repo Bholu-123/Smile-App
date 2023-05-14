@@ -26,7 +26,7 @@ const Navigation = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={"SuperAdminHomeScreen"}
+      initialRouteName={"Onboarding"}
     >
       <Stack.Group
         screenOptions={{
