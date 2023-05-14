@@ -13,28 +13,29 @@ import { useSelector } from "react-redux";
 import { getRestaurant } from "../slices/restaurantSlice";
 import { useNavigation } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
+import * as MailComposer from 'expo-mail-composer';
+
 
 import MapView, { Marker } from "react-native-maps";
 
 const DeliveryScreen = () => {
   const restName = useSelector(getRestaurant);
   const navigation = useNavigation();
-  // const contactHandler = () => {
-  //  openGmail("abhishek@gmail.com");
-  // }
-  const openGmail = async (email) =>{
-   const gmailUrl = `mailto:${email}?subject=Enquiry regarding my donation`;
-   try {
-    const supported = await Linking.canOpenURL(gmailUrl);
-    if (supported) {
-      await Linking.openURL(gmailUrl);
-    } else {
-      await Linking.openURL(webUrl);
+  
+  const openGmail = async (email) => {
+    const recipientEmail = email;
+    const subject = 'Enquiry regarding my donation';
+  
+    try {
+      await MailComposer.composeAsync({
+        recipients: [recipientEmail],
+        subject: subject,
+      });
+    } catch (error) {
+      console.error('Failed to open email composer:', error);
     }
-   } catch (error) {
-    console.error('failed to open Gmail',error);
-   }
-  }
+  };
+  
 
   return (
     <View className="bg-[#00ccbb] flex-1">
@@ -69,28 +70,6 @@ const DeliveryScreen = () => {
           your donation at NGO{restName.title} is being processed
         </Text>
       </View>
-{/* 
-      <MapView
-        initialRegion={{
-          latitude: restName.lat,
-          longitude: restName.long,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005,
-        }}
-        className="flex-1 -mt-10 z-0"
-        mapType="mutedStandard"
-      >
-        <Marker
-          coordinate={{
-            latitude: restName.lat,
-            longitude: restName.long,
-          }}
-          title={restName.title}
-          description={restName.short_description}
-          identifier="origin"
-          pinColor="#00ccbb"
-        />
-      </MapView> */}
 
         <Animatable.Image
         source={{
