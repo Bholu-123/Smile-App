@@ -102,8 +102,7 @@ export const sendEmail = async (values) => {
 };
 
 export const getNotification = async (recieverId) => {
-  // const url = `/api/notification/${recieverId}`;
-  const url = `/api/notification/64529a76d5790f8199dd6723`;
+  const url = `/api/notification/${recieverId}`;
   const response = await API({
     method: "GET",
     url: url,

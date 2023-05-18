@@ -7,8 +7,8 @@ export default {
   CLOUD_NAME: "dylagiij7",
   UPLOAD_PRESET: "myAppUpload",
   EXTRA_POINT: 5,
-  EMAIL_SUBJECT: "Donation",
-  EMAIL_TEXT: "donation",
+  EMAIL_SUBJECT: "Someone donated to your ngo",
+  EMAIL_TEXT: "You just recieved a donation",
 
   THEME: {
     primary: "#062743",

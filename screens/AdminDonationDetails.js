@@ -13,6 +13,7 @@ import { XCircleIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 import { getDonationItemById } from "../components/api/Auth";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import * as MailComposer from "expo-mail-composer";
 
 const AdminDonationDetails = ({ route }) => {
   const navigation = useNavigation();
@@ -32,6 +33,20 @@ const AdminDonationDetails = ({ route }) => {
     }
     fetchObjects();
   }, []);
+
+  const openGmail = async (email) => {
+    const recipientEmail = email;
+    const subject = "Thanks for your support";
+
+    try {
+      await MailComposer.composeAsync({
+        recipients: [recipientEmail],
+        subject: subject,
+      });
+    } catch (error) {
+      console.error("Failed to open email composer:", error);
+    }
+  };
 
   const getQuantity = (id) => {
     console.log(id);
@@ -85,7 +100,6 @@ const AdminDonationDetails = ({ route }) => {
             >
               <View className="flex-row space-x-2 items-center">
                 <Text className="text-[#00CCBB] mr-1">
-                  {console.log("++++IIIII", getQuantity(item?._id))}
                   {getQuantity(item?._id)}
                 </Text>
                 <Image
@@ -94,33 +108,27 @@ const AdminDonationDetails = ({ route }) => {
                 />
                 <Text className="text-md">{items.title}</Text>
               </View>
-              {/* <View className="flex-row space-x-2 items-center">
-                <Text className="text-gray-400">
-                  <View className="flex-row items-center">
-                    <Text className="text-gray-400 mr-2">
-                      {itemsValue?.[items?.id] * items.price}
-                    </Text>
-                    <Icon name="coins" className="text-gray-400" />
-                  </View>
-                </Text>
-              </View> */}
             </View>
           ))}
         </ScrollView>
       </View>
 
-      {/* <View className="bg-gray-100 border-t-1 border-gray-400 z-20 flex flex-row items-center justify-between">
-        <TouchableOpacity className="bg-[#00CCBB] p-3 mx-4 rounded-md mb-3">
-          <Text className=" text-white text-center font-medium text-lg">
-            Accept
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity className="bg-[#00CCBB] p-3 mx-4 rounded-md mb-3">
-          <Text className=" text-white text-center font-medium text-lg">
-            Decline
-          </Text>
-        </TouchableOpacity>
-      </View> */}
+      <View className="bg-white flex-row space-x-5 h-28 absolute bottom-0 w-full items-center">
+        <Image
+          source={{ uri: "https://links.papareact.com/wru" }}
+          className="h-12 w-12 bg-gray-300 p=4 rounded-full ml-5"
+        />
+        <View className="flex-1">
+          <Text className="text-xs">{item?.donatedBy?.email}</Text>
+          <Text className="text-gray-400">Donor</Text>
+        </View>
+        <Text
+          className="text-[#00CCBB] text-sm mr-5 font-bold"
+          onPress={() => openGmail(item?.donatedBy?.email)}
+        >
+          Contact us
+        </Text>
+      </View>
     </SafeAreaView>
   );
 };

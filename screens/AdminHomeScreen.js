@@ -122,9 +122,9 @@ const AdminHomeScreen = () => {
         console.log("Error in fetching category", err);
       });
 
-    // setInterval(() => {
-    polling();
-    // },10000)
+    setInterval(() => {
+      polling();
+    }, 10000);
   }, []);
 
   const requestLocationAccess = async () => {
